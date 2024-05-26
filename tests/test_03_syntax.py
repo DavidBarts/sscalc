@@ -11,7 +11,7 @@ from sscalc.exceptions import Error
 from sscalc.model import table, make_table, ShlexReader
 from sscalc.yacc import parse
 
-class TestShlex(unittest.TestCase):
+class TestSyntax(unittest.TestCase):
     def setUp(self):
         if not table:
             with ShlexReader(os.path.join("tests", "data", "basic.txt")) as reader:
@@ -48,7 +48,7 @@ class TestShlex(unittest.TestCase):
         self.assertEqual(parse("2**-3"), Decimal("0.125"))
 
     def test_call(self):
-        self.assertEqual(parse("@sqrt(4)"), Decimal(2))
+        self.assertEqual(parse("-@sqrt(4)"), Decimal(-2))
 
     def test_parens(self):
         self.assertEqual(parse("(1+2)*3"), Decimal(9))

@@ -39,6 +39,7 @@ except SystemExit:
     # Argument parsing errors
     sys.exit(2)
 except decimal.DecimalException as e:
+    # Arithmetic errors
     etype = type(e)
     if etype in EXC_ERROR:
         die("arithmetic error (" + EXC_ERROR[etype] + ")")
