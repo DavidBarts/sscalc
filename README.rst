@@ -13,7 +13,7 @@ arithmetic, not binary floating point.
 
 I wrote sscalc because:
 
-#. I tend to create simple "spreadsheets" as text files
+#. I tend to create simple “spreadsheets” as text files
 #. I do not like how all standard spreadsheet programs use binary floating
    point (instead of decimal) for calculations (this can cause errors with
    financial data).
@@ -80,7 +80,7 @@ Extracting a Single Column
 Only Numeric Columns Can Be Referred To
 ---------------------------------------
 
-This is because an expression's column references are intended to be operated
+This is because an expression’s column references are intended to be operated
 on arithmetically::
 
     $ sscalc "@sum(a2:a5)" < liability.txt
@@ -95,7 +95,7 @@ option may be used to change this::
     $ sscalc -p 2 b2 < liability.txt
     594.00
 
-So-called "bankers'" rounding is used::
+So-called “bankers’” rounding is used::
 
     $ sscalc -p 0 '121.5' < /dev/null
     122
@@ -141,7 +141,7 @@ The ``-c`` or ``--csv`` option will cause standard input to be parsed as CSV.
 Pre-Defined Constants
 =====================
 
-There is one pre-defined constant, ``@PI``, the ratio of a circle's
+There is one pre-defined constant, ``@PI``, the ratio of a circle’s
 circumference to its diameter.
 
 Built-In Functions
@@ -179,8 +179,8 @@ Built-In Functions
     Accepts one or more arguments, and returns the least argument.
     
 ``@ROUND``
-    Accepts one or two arguments. With one argument, performs bankers'
-    rounding to the nearest integer. With two arguments, performs bankers'
+    Accepts one or two arguments. With one argument, performs bankers’
+    rounding to the nearest integer. With two arguments, performs bankers’
     rounding to the specified number of decimal places.
     
 ``@SQRT``
