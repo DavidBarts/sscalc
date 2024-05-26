@@ -4,19 +4,43 @@
 
 import os, sys
 import sscalc
+import decimal
 
 # V a r i a b l e s
 
 MYNAME = os.path.basename(sys.argv[0])
 
+EXC_ERROR = {
+    decimal.Clamped: "clamped",
+    decimal.DivisionByZero: "division by zero",
+    decimal.Overflow: "overflow",
+    decimal.Underflow: "underflow",
+    decimal.Inexact: "precision was lost",
+    decimal.InvalidOperation: "invalid operation",
+    decimal.Rounded: "rounded",
+    decimal.Subnormal: "subnormal",
+    decimal.FloatOperation: "float operation",
+}
+
+# F u n c t i o n s
+
+def die(message, status=1):
+    sys.stderr.write(f"{MYNAME}: {message}\n")
+    sys.exit(status)
+
 # M a i n   P r o g r a m
 
 try:
-    sscalc.run(sys.argv)
+    sscalc.run(sys.argv[1:])
 except sscalc.Error as e:
     # Most of our errors
-    sys.stderr.write(f"{MYNAME}: {e!s}\n")
-    sys.exit(1)
+    die(str(e()))
 except SystemExit:
     # Argument parsing errors
     sys.exit(2)
+except decimal.DecimalException as e:
+    etype = type(e)
+    if etype in EXC_ERROR:
+        die("arithmetic error (" + EXC_ERROR[etype] + ")")
+    else:
+        die("arithmetic error")
