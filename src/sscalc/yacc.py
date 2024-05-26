@@ -180,4 +180,7 @@ def p_param_reference_range_reference(p):
 # Error handling (required by PLY).
 
 def p_error(p):
-    raise Error(f"expression syntax error, token={p.type}, value={p.value!r}, offset={p.lexpos}")
+    if p is None:
+        raise Error("expression syntax error (unexpected end of input)")
+    else:
+        raise Error(f"expression syntax error ({p.value!r} at offset {p.lexpos})")

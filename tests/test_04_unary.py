@@ -1,4 +1,4 @@
-# Basic tests of operating on the default (shlex) input format.
+# Try scattering unary + and - around and see what happens.
 
 # I m p o r t s
 

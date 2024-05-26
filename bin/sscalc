@@ -34,7 +34,7 @@ try:
     sscalc.run(sys.argv[1:])
 except sscalc.Error as e:
     # Most of our errors
-    die(str(e()))
+    die(str(e))
 except SystemExit:
     # Argument parsing errors
     sys.exit(2)
