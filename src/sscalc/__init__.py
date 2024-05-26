@@ -3,7 +3,7 @@
 import argparse
 
 from .exceptions import Error
-from .model import make_table
+from .model import make_table, table
 from .yacc import parse
 
 # F u n c t i o n s

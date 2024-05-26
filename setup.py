@@ -57,7 +57,7 @@ if sys.argv[-1] == "publish":
 requires = []
 test_requirements = []
 
-with open("README.txt", "r", "utf-8") as f:
+with open("README.md", "r", "utf-8") as f:
     readme = f.read()
 
 setup(
@@ -99,6 +99,7 @@ setup(
     ],
     cmdclass={"test": PyTest},
     tests_require=test_requirements,
+    scripts=["bin/sscalc"],
     # project_urls={
     #     "Documentation": "none yet",
     #     "Source": "none yet",

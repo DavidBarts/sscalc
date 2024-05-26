@@ -11,7 +11,7 @@ _ENCODING = 'UTF-8'
 
 # Our data model, a list of lists, representing the spreadsheet. A cell is
 # a Decimal if it can be parsed as a Decimal value, else a string.
-table = None
+table = []
 
 # C l a s s e s
 
@@ -56,12 +56,14 @@ class CsvReader(SplittingReader):
 
 def make_table(reader):
     global table
-    table = []
+    table.clear()
+    assert table is not None
     while True:
         raw = reader.read()
         if raw is None:
             break
         table.append([ _coerce_decimal(x) for x in raw ])
+    assert table is not None
 
 def _coerce_decimal(raw):
     try:

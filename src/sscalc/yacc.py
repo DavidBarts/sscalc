@@ -21,6 +21,7 @@ from ply import yacc
 from .exceptions import Error
 from .lexer import tokens  # required by PLY
 from .model import table
+from . import funcs
 
 # V a r i a b l e s
 
@@ -67,7 +68,7 @@ def _getcoords(refspec):
         raise Error(f"{refspec!r} - invalid reference specification")
     col = ord(refspec[0]) - ord('A')
     try:
-        row = int(refspec[1:])
+        row = int(refspec[1:]) - 1
     except ValueError:
         raise Error(f"{refspec!r} - invalid reference specification")
     if row >= len(table) or col >= len(table[row]):
@@ -75,7 +76,7 @@ def _getcoords(refspec):
     return row, col
 
 def _getcell(r, c):
-    return chr(ord('A') + c) + str(c)
+    return chr(ord('A') + c) + str(r + 1)
 
 def _getrange(start, end):
     accum = []
@@ -130,12 +131,12 @@ def p_expr_reference(p):
     ref = p[1].upper()
     r, c = _getcoords(ref)
     if r >= len(table) or c >= len(table[r]):
-        raise Error(f"{ref} - cell does not exist")
+        raise Error(f"{ref} does not exist")
     val = table[r][c]
     if isinstance(val, Decimal):
         p[0] = val
     else:
-        raise Error(f"{ref} - cell is not numeric")
+        raise Error(f"{ref} is not numeric")
 
 # constant
 def p_expr_identifier(p):

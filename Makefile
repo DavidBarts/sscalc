@@ -10,3 +10,6 @@ all: README.md sccc
 
 %.md: %.rst
 	$(PANDOC_DIR)pandoc -f rst -t markdown_strict -o $@ $<
+
+%.html: %.rst
+	$(PANDOC_DIR)pandoc -f rst -t html -o $@ $<
