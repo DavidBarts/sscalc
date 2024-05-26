@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+# I m p o r t s
+
+import os, sys
+import sscalc
+
+# V a r i a b l e s
+
+MYNAME = os.path.basename(sys.argv[0])
+
+# M a i n   P r o g r a m
+
+try:
+    sscalc.run(sys.argv)
+except sscalc.Error as e:
+    # Most of our errors
+    sys.stderr.write(f"{MYNAME}: {e!s}\n")
+    sys.exit(1)
+except SystemExit:
+    # Argument parsing errors
+    sys.exit(2)
