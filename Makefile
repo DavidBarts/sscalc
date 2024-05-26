@@ -13,3 +13,6 @@ all: README.md sccc
 
 %.html: %.rst
 	$(PANDOC_DIR)pandoc -f rst -t html -o $@ $<
+
+test:
+	./run-tests

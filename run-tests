@@ -1,0 +1,17 @@
+#!/bin/sh
+
+myname=`basename $0`
+here=`pwd`
+
+if [ ! -d src ]
+then
+    1>&2 echo "$myname: src directory not found"
+    exit 2
+fi
+export PYTHONPATH="$here/src"
+
+for i in tests/test_*.py
+do
+    echo '***' "$i"
+    python3 "$i" || exit 1
+done
