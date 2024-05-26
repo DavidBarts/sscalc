@@ -176,3 +176,8 @@ def p_param_expr(p):
 def p_param_reference_range_reference(p):
     'param : REFERENCE RANGE REFERENCE'
     p[0] = tuple(_getrange(p[1], p[3]))
+
+# Error handling (required by PLY).
+
+def p_error(p):
+    raise Error(f"expression syntax error, token={p.type}, value={p.value!r}, offset={p.lexpos}")

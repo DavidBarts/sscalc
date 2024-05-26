@@ -17,7 +17,7 @@ I wrote sscalc because:
 #. I do not like how all standard spreadsheet programs use binary floating
    point (instead of decimal) for calculations (this can cause errors with
    financial data).
-   
+
 The main goal has been to create something simple that suits my purposes.
 
 Requirements
@@ -138,6 +138,24 @@ CSV Data
 
 The ``-c`` or ``--csv`` option will cause standard input to be parsed as CSV.
 
+Operators
+=========
+
+The following arithmetic operators are available:
+
+``+`` ``-`` ``*`` ``/``
+    Addition, subtraction, multiplication, and division (the latter being
+    decimal floating point division, not integer division).
+
+``//`` ``%``
+    Integer division and modulus.
+
+``**`` ``^``
+    Exponentiation (the two forms are equivalent).
+
+``(`` ``)``
+    For grouping and to force precedence of evaluation.
+
 Pre-Defined Constants
 =====================
 
@@ -171,24 +189,24 @@ Built-In Functions
 ``@LOG10``
     Accepts a single argument, and returns the common (base 10) logarithm of
     that argument.
-    
+
 ``@MAX``
     Accepts one or more arguments, and returns the greatest argument.
-    
+
 ``@MIN``
     Accepts one or more arguments, and returns the least argument.
-    
+
 ``@ROUND``
     Accepts one or two arguments. With one argument, performs bankers’
     rounding to the nearest integer. With two arguments, performs bankers’
     rounding to the specified number of decimal places.
-    
+
 ``@SQRT``
     Accepts a single argument, and returns the square root of that argument.
-    
+
 ``@SUM``
     Accepts one or more arguments, and returns the sum of its arguments.
-    
+
 Ranges in Function Arguments
 ----------------------------
 

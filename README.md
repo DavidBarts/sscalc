@@ -128,6 +128,24 @@ below).
 The `-c` or `--csv` option will cause standard input to be parsed as
 CSV.
 
+Operators
+---------
+
+The following arithmetic operators are available:
+
+`+` `-` `*` `/`  
+Addition, subtraction, multiplication, and division (the latter being
+decimal floating point division, not integer division).
+
+`//` `%`  
+Integer division and modulus.
+
+`**` `^`  
+Exponentiation (the two forms are equivalent).
+
+`(` `)`  
+For grouping and to force precedence of evaluation.
+
 Pre-Defined Constants
 ---------------------
 

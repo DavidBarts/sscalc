@@ -36,19 +36,20 @@ def t_WHITESPACE(t):
     pass  # ignore all whitespace
 
 def t_NUMBER(t):
-    r'(\d+\.?|\.\d+|\d+.\d+)([Ee][+-]?\d+)?'
+    r'(\d+\.\d+|\d+\.?|\.\d+)([Ee][+-]?\d+)?'
     return t
 
 def t_ADDSUB(t):
     r'\+|-'
     return t
 
-def t_MULDIV(t):
-    r'\*|/|//|%'
-    return t
-
+# must precede MULDIV to grab ** before *
 def t_EXPO(t):
     r'\^|\*\*'
+    return t
+
+def t_MULDIV(t):
+    r'\*|//|/|%'
     return t
 
 def t_RANGE(t):

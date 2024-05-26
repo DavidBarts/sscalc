@@ -1,3 +1,4 @@
 *~
 *.bak
+parser.out
 **/__pycache__/
