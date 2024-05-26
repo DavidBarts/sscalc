@@ -101,7 +101,8 @@ Other forms of rounding can be achieved with judicious use of `@INT`:
 
 ### White Space Is Ignored in Expressions
 
-> $ sscalc "@sum(b2 : b5)" &lt; liability.txt 3961.0000
+    $ sscalc "@sum(b2 : b5)" < liability.txt
+    3961.0000
 
 ### White Space in Columns
 

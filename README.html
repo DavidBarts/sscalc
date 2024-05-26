@@ -1,0 +1,125 @@
+<h1 id="sscalc-a-spreadsheet-calculator">sscalc: a SpreadSheet CALCulator</h1>
+<h2 id="introduction">Introduction</h2>
+<p>This program reads UTF-8 text from standard input, which can be either whitespace-delimited or in CSV form, turns any field that can be parsed as a number into a number, then evaluates the passed expression as if it were an expression in a spreadsheet. Calculations are performed using decimal arithmetic, not binary floating point.</p>
+<p>I wrote sscalc because:</p>
+<ol>
+<li>I tend to create simple “spreadsheets” as text files</li>
+<li>I do not like how all standard spreadsheet programs use binary floating point (instead of decimal) for calculations (this can cause errors with financial data).</li>
+</ol>
+<p>The main goal has been to create something simple that suits my purposes.</p>
+<h2 id="requirements">Requirements</h2>
+<p>Sscalc requires <a href="https://github.com/dabeaz/ply">PLY (Python Lex-Yacc)</a>. Beyond that, it has no prerequisites other than a working install of Python 3.11 or greater.</p>
+<h2 id="installing">Installing</h2>
+<pre><code>python3 setup.py build
+python3 setup.py install</code></pre>
+<h2 id="command-syntax">Command Syntax</h2>
+<p>sscalc [ <em>options</em> ] <em>expression</em></p>
+<h2 id="an-example">An Example</h2>
+<p>Given the following as the contents of <code>liability.txt</code>:</p>
+<pre><code>DATE             AMOUNT
+2023-05-15       594.00
+2023-05-17      2222.00
+2023-07-06       551.00
+2023-12-14       594.00
+------------------------</code></pre>
+<p>Then:</p>
+<pre><code>$ sscalc &quot;@sum(b2:b5)&quot; &lt; liability.txt
+3961.0000</code></pre>
+<h2 id="more-examples">More Examples</h2>
+<h3 id="case-insensitivity">Case Insensitivity</h3>
+<p>Like traditional spreadsheets, the expression language is case-insensitive:</p>
+<pre><code>$ sscalc &quot;@SUM(B2:B5)&quot; &lt; liability.txt
+3961.0000</code></pre>
+<h3 id="extracting-a-single-column">Extracting a Single Column</h3>
+<pre><code>$ sscalc b2 &lt; liability.txt
+594.0000</code></pre>
+<h3 id="only-numeric-columns-can-be-referred-to">Only Numeric Columns Can Be Referred To</h3>
+<p>This is because an expression’s column references are intended to be operated on arithmetically:</p>
+<pre><code>$ sscalc &quot;@sum(a2:a5)&quot; &lt; liability.txt
+sscalc: A2:A5 - A2 is not numeric</code></pre>
+<h3 id="controlling-rounding">Controlling Rounding</h3>
+<p>By default, sscalc rounds to four decimal places. The <code>-p</code> or <code>--places</code> option may be used to change this:</p>
+<pre><code>$ sscalc -p 2 b2 &lt; liability.txt
+594.00</code></pre>
+<p>So-called “bankers’” rounding is used:</p>
+<pre><code>$ sscalc -p 0 &#39;121.5&#39; &lt; /dev/null
+122
+$ sscalc -p 0 &#39;122.5&#39; &lt; /dev/null
+122</code></pre>
+<p>Other forms of rounding can be achieved with judicious use of <code>@INT</code>:</p>
+<pre><code>$ sscalc -p 0 &#39;@int(122.5 + .5)&#39; &lt; /dev/null
+123</code></pre>
+<h3 id="white-space-is-ignored-in-expressions">White Space Is Ignored in Expressions</h3>
+<blockquote>
+<p>$ sscalc "@sum(b2 : b5)" &lt; liability.txt 3961.0000</p>
+</blockquote>
+<h3 id="white-space-in-columns">White Space in Columns</h3>
+<p>By default, sscalc uses <code>shlex</code> to parse a row into columns. In other words, columns are delimited by runs of one or more whitespace characters, and single or double quotes must be used if input data itself contains spaces:</p>
+<pre><code>NAME                                   SYMBOL          SHARES
+&quot;Microsoft Corporation&quot;                MSFT            2.9024
+&quot;Apple, Inc.&quot;                          AAPL            5.5723
+&quot;Berkshire Hathaway, Inc.&quot;             BRK.B           1.2576
+&quot;Eli Lilly and Company&quot;                LLY             8.0921</code></pre>
+<p>If you were not to do this, then it would be hard to refer to the count of shares as column 3, because the name would get parsed as anything from two to four columns in the above example.</p>
+<p>The other way to work around this is of course to use CSV data (see below).</p>
+<h3 id="csv-data">CSV Data</h3>
+<p>The <code>-c</code> or <code>--csv</code> option will cause standard input to be parsed as CSV.</p>
+<h2 id="operators">Operators</h2>
+<p>The following arithmetic operators are available:</p>
+<dl>
+<dt><code>+</code> <code>-</code> <code>*</code> <code>/</code></dt>
+<dd><p>Addition, subtraction, multiplication, and division (the latter being decimal floating point division, not integer division).</p>
+</dd>
+<dt><code>//</code> <code>%</code></dt>
+<dd><p>Integer division and modulus.</p>
+</dd>
+<dt><code>**</code> <code>^</code></dt>
+<dd><p>Exponentiation (the two forms are equivalent).</p>
+</dd>
+<dt><code>(</code> <code>)</code></dt>
+<dd><p>For grouping and to force precedence of evaluation.</p>
+</dd>
+</dl>
+<h2 id="pre-defined-constants">Pre-Defined Constants</h2>
+<p>There is one pre-defined constant, <code>@PI</code>, the ratio of a circle’s circumference to its diameter.</p>
+<h2 id="built-in-functions">Built-In Functions</h2>
+<dl>
+<dt><code>@ABS</code></dt>
+<dd><p>Accepts a single argument, and returns the absolute value of that argument.</p>
+</dd>
+<dt><code>@AVERAGE</code></dt>
+<dd><p>Accepts one or more arguments, and returns the arithmetic mean of the passed values.</p>
+</dd>
+<dt><code>@COUNT</code></dt>
+<dd><p>Returns the count of its arguments.</p>
+</dd>
+<dt><code>@EXP</code></dt>
+<dd><p>Accepts a single argument, and returns <em>e</em> to the power of that argument. This is the inverse function to <code>@LN</code>.</p>
+</dd>
+<dt><code>@INT</code></dt>
+<dd><p>Accepts a single argument, and returns the integer portion of that argument.</p>
+</dd>
+<dt><code>@LN</code></dt>
+<dd><p>Accepts a single argument, and returns the natural logarithm of that argument.</p>
+</dd>
+<dt><code>@LOG10</code></dt>
+<dd><p>Accepts a single argument, and returns the common (base 10) logarithm of that argument.</p>
+</dd>
+<dt><code>@MAX</code></dt>
+<dd><p>Accepts one or more arguments, and returns the greatest argument.</p>
+</dd>
+<dt><code>@MIN</code></dt>
+<dd><p>Accepts one or more arguments, and returns the least argument.</p>
+</dd>
+<dt><code>@ROUND</code></dt>
+<dd><p>Accepts one or two arguments. With one argument, performs bankers’ rounding to the nearest integer. With two arguments, performs bankers’ rounding to the specified number of decimal places.</p>
+</dd>
+<dt><code>@SQRT</code></dt>
+<dd><p>Accepts a single argument, and returns the square root of that argument.</p>
+</dd>
+<dt><code>@SUM</code></dt>
+<dd><p>Accepts one or more arguments, and returns the sum of its arguments.</p>
+</dd>
+</dl>
+<h3 id="ranges-in-function-arguments">Ranges in Function Arguments</h3>
+<p>A function argument may be of the form <em>ref</em><code>:</code><em>ref</em>, where <em>ref</em> is a valid cell reference (e.g. <code>A10</code>, <code>C3</code>, etc.) This will cause all arguments in the rectangular range from the first (upper left) to the second (lower right) cell to be passed. It is an error if any cell in the region is non-numeric or does not exist.</p>
