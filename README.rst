@@ -147,17 +147,53 @@ circumference to its diameter.
 Built-In Functions
 ==================
 
-this
-    First element.
+``@ABS``
+    Accepts a single argument, and returns the absolute value of that argument.
+
+``@AVERAGE``
+    Accepts one or more arguments, and returns the arithmetic mean of the
+    passed values.
+
+``@COUNT``
+    Returns the count of its arguments.
+
+``@EXP``
+    Accepts a single argument, and returns *e* to the power of that argument.
+    This is the inverse function to ``@LN``.
+
+``@INT``
+    Accepts a single argument, and returns the integer portion of that argument.
+
+``@LN``
+    Accepts a single argument, and returns the natural logarithm of that
+    argument.
+
+``@LOG10``
+    Accepts a single argument, and returns the common (base 10) logarithm of
+    that argument.
     
-that
-    Second element. This is a long description. Lorem ipsum dolor sit amet,
-    consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-    officia deserunt mollit anim id est laborum.
+``@MAX``
+    Accepts one or more arguments, and returns the greatest argument.
     
-other thing
-    This is the final element in the list.
+``@MIN``
+    Accepts one or more arguments, and returns the least argument.
+    
+``@ROUND``
+    Accepts one or two arguments. With one argument, performs bankers'
+    rounding to the nearest integer. With two arguments, performs bankers'
+    rounding to the specified number of decimal places.
+    
+``@SQRT``
+    Accepts a single argument, and returns the square root of that argument.
+    
+``@SUM``
+    Accepts one or more arguments, and returns the sum of its arguments.
+    
+Ranges in Function Arguments
+----------------------------
+
+A function argument may be of the form *ref*``:``*ref*, where *ref* is a
+valid cell reference (e.g. ``A10``, ``C3``, etc.) This will cause all arguments
+in the rectangular range from the first (upper left) to the second (lower right)
+cell to be passed. It is an error if any cell in the region is non-numeric or
+does not exist.
