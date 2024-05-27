@@ -39,9 +39,8 @@ class ShlexReader(SplittingReader):
         if not line:
             return None
         self._line += 1
-        stripped = line.rstrip()
         try:
-            return shlex.split(stripped)
+            return shlex.split(line, comments=True)
         except ValueError as e:
             message = str(e) or "shlex syntax error"
             raise Error(f"line {self._line}: {message}")
