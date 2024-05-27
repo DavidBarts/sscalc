@@ -3,6 +3,7 @@
 import os, sys
 import csv
 import shlex
+from .exceptions import Error
 from decimal import Decimal, InvalidOperation
 
 # V a r i a b l e s
@@ -31,12 +32,18 @@ class SplittingReader(object):
 class ShlexReader(SplittingReader):
     def __init__(self, file_name=0):
         self._fp = open(file_name, encoding=_ENCODING)
+        self._line = 0
 
     def read(self):
         line = self._fp.readline()
         if not line:
             return None
-        return shlex.split(line.rstrip())
+        self._line += 1
+        stripped = line.rstrip()
+        try:
+            return shlex.split(stripped)
+        except ValueError as e:
+            raise Error(f"line {self._line}: {e!s}")
 
     def close(self):
         self._fp.close()
