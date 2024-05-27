@@ -64,13 +64,11 @@ class CsvReader(SplittingReader):
 def make_table(reader):
     global table
     table.clear()
-    assert table is not None
     while True:
         raw = reader.read()
         if raw is None:
             break
         table.append([ _coerce_decimal(x) for x in raw ])
-    assert table is not None
 
 def _coerce_decimal(raw):
     try:
