@@ -43,7 +43,8 @@ class ShlexReader(SplittingReader):
         try:
             return shlex.split(stripped)
         except ValueError as e:
-            raise Error(f"line {self._line}: {e!s}")
+            message = str(e) or "shlex syntax error"
+            raise Error(f"line {self._line}: {message}")
 
     def close(self):
         self._fp.close()
