@@ -96,8 +96,8 @@ operated on arithmetically:
 
 ### Controlling Rounding
 
-By default, sscalc rounds to four decimal places. The `-p` or `--places`
-option may be used to change this:
+By default, sscalc rounds to four decimal places when printing results.
+The `-p` or `--places` option may be used to change this:
 
     $ sscalc -b -p 2 b2 < liability.txt
     594.00

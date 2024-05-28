@@ -47,7 +47,7 @@ b5 = 594.0000
 <pre><code>$ sscalc -b &quot;@sum(a2:a5)&quot; &lt; liability.txt
 sscalc: A2:A5 - A2 is not numeric</code></pre>
 <h3 id="controlling-rounding">Controlling Rounding</h3>
-<p>By default, sscalc rounds to four decimal places. The <code>-p</code> or <code>--places</code> option may be used to change this:</p>
+<p>By default, sscalc rounds to four decimal places when printing results. The <code>-p</code> or <code>--places</code> option may be used to change this:</p>
 <pre><code>$ sscalc -b -p 2 b2 &lt; liability.txt
 594.00</code></pre>
 <p>So-called “bankers’” rounding is used:</p>
