@@ -42,8 +42,8 @@ b5 = 594.0000
 <p>The <code>-b</code>/<code>--bare</code> option will cause the outputting of expressions to be suppressed:</p>
 <pre><code>$ sscalc --bare b2 &lt; liability.txt
 594.0000</code></pre>
-<h3 id="only-numeric-columns-can-be-referred-to">Only Numeric Columns Can Be Referred To</h3>
-<p>This is because an expression’s column references are intended to be operated on arithmetically:</p>
+<h3 id="only-numeric-cells-can-be-referred-to">Only Numeric Cells Can Be Referred To</h3>
+<p>This is because an expression’s cell references are intended to be operated on arithmetically:</p>
 <pre><code>$ sscalc -b &quot;@sum(a2:a5)&quot; &lt; liability.txt
 sscalc: A2:A5 - A2 is not numeric</code></pre>
 <h3 id="controlling-rounding">Controlling Rounding</h3>

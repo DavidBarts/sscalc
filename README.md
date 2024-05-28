@@ -86,9 +86,9 @@ suppressed:
     $ sscalc --bare b2 < liability.txt
     594.0000
 
-### Only Numeric Columns Can Be Referred To
+### Only Numeric Cells Can Be Referred To
 
-This is because an expression’s column references are intended to be
+This is because an expression’s cell references are intended to be
 operated on arithmetically:
 
     $ sscalc -b "@sum(a2:a5)" < liability.txt
