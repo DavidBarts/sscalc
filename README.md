@@ -218,7 +218,7 @@ Accepts one or more arguments, and returns the sum of its arguments.
 ### Ranges in Function Arguments
 
 A function argument may be of the form *ref*`:`*ref*, where *ref* is a
-valid cell reference (e.g. `A10`, `C3`, etc.) This will cause all
-arguments in the rectangular range from the first (upper left) to the
-second (lower right) cell to be passed. It is an error if any cell in
-the region is non-numeric or does not exist.
+valid cell reference (e.g. `A10`, `C3`, etc.) This will cause all cells
+in the rectangular range from the first (upper left) to the second
+(lower right) cell to be passed as arguments. It is an error if any cell
+in the region is non-numeric or does not exist.
