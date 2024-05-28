@@ -13,7 +13,7 @@
 <pre><code>python3 setup.py build
 python3 setup.py install</code></pre>
 <h2 id="command-syntax">Command Syntax</h2>
-<p>sscalc [ <em>options</em> ] <em>expression</em></p>
+<p>sscalc [ <em>options</em> ] <em>expression</em> [...]</p>
 <h2 id="an-example">An Example</h2>
 <p>Given the following as the contents of <code>liability.txt</code>:</p>
 <pre><code>DATE             AMOUNT
@@ -24,35 +24,43 @@ python3 setup.py install</code></pre>
 ------------------------</code></pre>
 <p>Then:</p>
 <pre><code>$ sscalc &quot;@sum(b2:b5)&quot; &lt; liability.txt
-3961.0000</code></pre>
+@sum(b2:b5) = 3961.0000</code></pre>
 <h2 id="more-examples">More Examples</h2>
 <h3 id="case-insensitivity">Case Insensitivity</h3>
 <p>Like traditional spreadsheets, the expression language is case-insensitive:</p>
 <pre><code>$ sscalc &quot;@SUM(B2:B5)&quot; &lt; liability.txt
-3961.0000</code></pre>
+@SUM(B2:B5) = 3961.0000</code></pre>
 <h3 id="extracting-a-single-column">Extracting a Single Column</h3>
 <pre><code>$ sscalc b2 &lt; liability.txt
+b2 = 594.0000</code></pre>
+<p>This can be useful to verify that one is pulling in the correct cells:</p>
+<pre><code>$ sscalc b2 b5 &quot;@sum(b2:b5)&quot; &lt; liability.txt
+b2 = 594.0000
+b5 = 594.0000
+@sum(b2:b5) = 3961.0000</code></pre>
+<h3 id="suppressing-expression-output">Suppressing Expression Output</h3>
+<p>The <code>-b</code>/<code>--bare</code> option will cause the outputting of expressions to be suppressed:</p>
+<pre><code>$ sscalc --bare b2 &lt; liability.txt
 594.0000</code></pre>
 <h3 id="only-numeric-columns-can-be-referred-to">Only Numeric Columns Can Be Referred To</h3>
 <p>This is because an expression’s column references are intended to be operated on arithmetically:</p>
-<pre><code>$ sscalc &quot;@sum(a2:a5)&quot; &lt; liability.txt
+<pre><code>$ sscalc -b &quot;@sum(a2:a5)&quot; &lt; liability.txt
 sscalc: A2:A5 - A2 is not numeric</code></pre>
 <h3 id="controlling-rounding">Controlling Rounding</h3>
 <p>By default, sscalc rounds to four decimal places. The <code>-p</code> or <code>--places</code> option may be used to change this:</p>
-<pre><code>$ sscalc -p 2 b2 &lt; liability.txt
+<pre><code>$ sscalc -b -p 2 b2 &lt; liability.txt
 594.00</code></pre>
 <p>So-called “bankers’” rounding is used:</p>
-<pre><code>$ sscalc -p 0 &#39;121.5&#39; &lt; /dev/null
+<pre><code>$ sscalc -b -p 0 &#39;121.5&#39; &lt; /dev/null
 122
-$ sscalc -p 0 &#39;122.5&#39; &lt; /dev/null
+$ sscalc -b -p 0 &#39;122.5&#39; &lt; /dev/null
 122</code></pre>
 <p>Other forms of rounding can be achieved with judicious use of <code>@INT</code>:</p>
-<pre><code>$ sscalc -p 0 &#39;@int(122.5 + .5)&#39; &lt; /dev/null
+<pre><code>$ sscalc -b -p 0 &#39;@int(122.5 + .5)&#39; &lt; /dev/null
 123</code></pre>
 <h3 id="white-space-is-ignored-in-expressions">White Space Is Ignored in Expressions</h3>
-<blockquote>
-<p>$ sscalc "@sum(b2 : b5)" &lt; liability.txt 3961.0000</p>
-</blockquote>
+<pre><code>$ sscalc -b &quot;@sum(b2 : b5)&quot; &lt; liability.txt
+3961.0000</code></pre>
 <h3 id="white-space-in-columns">White Space in Columns</h3>
 <p>By default, sscalc uses <code>shlex</code> to parse a row into columns. In other words, columns are delimited by runs of one or more whitespace characters, and single or double quotes must be used if input data itself contains spaces:</p>
 <pre><code>NAME                                   SYMBOL          SHARES

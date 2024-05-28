@@ -39,7 +39,7 @@ Installing
 Command Syntax
 ==============
 
-sscalc [ *options* ] *expression*
+sscalc [ *options* ] *expression* [...]
 
 An Example
 ==========
@@ -56,7 +56,7 @@ Given the following as the contents of ``liability.txt``::
 Then::
 
     $ sscalc "@sum(b2:b5)" < liability.txt
-    3961.0000
+    @sum(b2:b5) = 3961.0000
 
 More Examples
 =============
@@ -67,7 +67,7 @@ Case Insensitivity
 Like traditional spreadsheets, the expression language is case-insensitive::
 
     $ sscalc "@SUM(B2:B5)" < liability.txt
-    3961.0000
+    @SUM(B2:B5) = 3961.0000
 
 Extracting a Single Column
 --------------------------
@@ -75,6 +75,22 @@ Extracting a Single Column
 ::
 
     $ sscalc b2 < liability.txt
+    b2 = 594.0000
+
+This can be useful to verify that one is pulling in the correct cells::
+
+    $ sscalc b2 b5 "@sum(b2:b5)" < liability.txt
+    b2 = 594.0000
+    b5 = 594.0000
+    @sum(b2:b5) = 3961.0000
+
+Suppressing Expression Output
+-----------------------------
+
+The ``-b``/``--bare`` option will cause the outputting of expressions
+to be suppressed::
+
+    $ sscalc --bare b2 < liability.txt
     594.0000
 
 Only Numeric Columns Can Be Referred To
@@ -83,7 +99,7 @@ Only Numeric Columns Can Be Referred To
 This is because an expression’s column references are intended to be operated
 on arithmetically::
 
-    $ sscalc "@sum(a2:a5)" < liability.txt
+    $ sscalc -b "@sum(a2:a5)" < liability.txt
     sscalc: A2:A5 - A2 is not numeric
 
 Controlling Rounding
@@ -92,19 +108,19 @@ Controlling Rounding
 By default, sscalc rounds to four decimal places. The ``-p`` or ``--places``
 option may be used to change this::
 
-    $ sscalc -p 2 b2 < liability.txt
+    $ sscalc -b -p 2 b2 < liability.txt
     594.00
 
 So-called “bankers’” rounding is used::
 
-    $ sscalc -p 0 '121.5' < /dev/null
+    $ sscalc -b -p 0 '121.5' < /dev/null
     122
-    $ sscalc -p 0 '122.5' < /dev/null
+    $ sscalc -b -p 0 '122.5' < /dev/null
     122
 
 Other forms of rounding can be achieved with judicious use of ``@INT``::
 
-    $ sscalc -p 0 '@int(122.5 + .5)' < /dev/null
+    $ sscalc -b -p 0 '@int(122.5 + .5)' < /dev/null
     123
 
 White Space Is Ignored in Expressions
@@ -112,7 +128,7 @@ White Space Is Ignored in Expressions
 
 ::
 
-    $ sscalc "@sum(b2 : b5)" < liability.txt
+    $ sscalc -b "@sum(b2 : b5)" < liability.txt
     3961.0000
 
 White Space in Columns
