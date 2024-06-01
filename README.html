@@ -75,6 +75,8 @@ $ sscalc &#39;@round(122.5)&#39; &lt; /dev/null
 <p>The other way to work around this is of course to use CSV data (see below).</p>
 <h3 id="csv-data">CSV Data</h3>
 <p>The <code>-c</code> or <code>--csv</code> option will cause standard input to be parsed as CSV.</p>
+<h3 id="splitting-into-fields-with-regular-expressions">Splitting into Fields with Regular Expressions</h3>
+<p>The <code>-r</code> or <code>--regex</code> may be used to specify a (Python) regular expression, which will be used instead of shlex to split the input into fields. For example, <code>--regex='\s+'</code> will use runs of one or more whitespace fields as delimiters.</p>
 <h2 id="operators">Operators</h2>
 <p>The following arithmetic operators are available:</p>
 <dl>

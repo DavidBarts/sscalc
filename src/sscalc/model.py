@@ -3,6 +3,7 @@
 import os, sys
 import csv
 import shlex
+import re
 from .exceptions import Error
 from decimal import Decimal, InvalidOperation
 
@@ -47,6 +48,17 @@ class ShlexReader(SplittingReader):
 
     def close(self):
         self._fp.close()
+
+class RegexReader(SplittingReader):
+    def __init__(self, regex, file_name=0):
+        self._regex = re.compile(regex)
+        self._fp = open(file_name, encoding=_ENCODING)
+
+    def read(self):
+        line = self._fp.readline()
+        if not line:
+            return None
+        return self._regex.split(line[:-1] if line.endswith("\n") else line)
 
 class CsvReader(SplittingReader):
     def __init__(self, file_name=0):
