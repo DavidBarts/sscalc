@@ -169,7 +169,8 @@ Splitting into Fields with Regular Expressions
 
 The ``-r`` or ``--regex`` may be used to specify a (Python) regular expression,
 which will be used instead of shlex to split the input into fields. For example,
-``--regex='\s+'`` will use runs of one or more whitespace fields as delimiters.
+``--regex='\s+'`` will use runs of one or more whitespace characters as
+delimiters.
 
 Operators
 =========

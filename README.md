@@ -157,7 +157,7 @@ CSV.
 The `-r` or `--regex` may be used to specify a (Python) regular
 expression, which will be used instead of shlex to split the input into
 fields. For example, `--regex='\s+'` will use runs of one or more
-whitespace fields as delimiters.
+whitespace characters as delimiters.
 
 Operators
 ---------
